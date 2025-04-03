@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'subject_options_screen.dart';
 import 'virtual_assistant_screen.dart';
+import '../screens/models/course_data.dart'; // Ahora estamos usando 'cursos'
 
 class SubjectsScreen extends StatelessWidget {
   const SubjectsScreen({Key? key}) : super(key: key);
@@ -82,17 +83,10 @@ class SubjectsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-              _subjectCard(context, "Costos"),
-              const SizedBox(height: 16),
-              _subjectCard(context, "Economía"),
-              const SizedBox(height: 16),
-              _subjectCard(context, "Gestión de MIPYMES"),
-              const SizedBox(height: 16),
-              _subjectCard(context, "Habilidades Directivas"),
-              const SizedBox(height: 16),
-              _subjectCard(context, "Inglés I"),
-              const SizedBox(height: 16),
-              _subjectCard(context, "Procesos"),
+              // Usamos la lista 'cursos' para generar las tarjetas de materias
+              ...cursos.map((curso) {
+                return _subjectCard(context, curso.nombre);
+              }).toList(),
 
               const SizedBox(height: 40),
 
@@ -179,12 +173,12 @@ class _UserInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text(
           "Vanessa Robles",
           style: TextStyle(color: SubjectsScreen._textColor, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(
           "Estudiante",
           style: TextStyle(color: SubjectsScreen._textColor, fontSize: 14),
@@ -197,3 +191,4 @@ class _UserInfo extends StatelessWidget {
     );
   }
 }
+

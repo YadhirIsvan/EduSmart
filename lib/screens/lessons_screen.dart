@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'virtual_assistant_screen.dart'; // For the chatbot
 import 'lesson_detail_screen.dart'; // For navigating to the lesson detail screen
+import './models/leccion_data.dart'; // Importamos el archivo de lecciones
 
 class LessonsScreen extends StatelessWidget {
   const LessonsScreen({Key? key}) : super(key: key);
@@ -77,24 +78,16 @@ class LessonsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-              // Botones de Módulos
-              _buildModuleButton(context, "Módulo I: Costos de Producción", 0, [
-                "Introducción a Costos",
-                "Costos Variables y Fijos",
-                "Costos de Producción por Departamento"
-              ], "Completado"),
-              const SizedBox(height: 16),
-              _buildModuleButton(context, "Módulo II: Finanzas", 1, [
-                "Flujo de Caja",
-                "Análisis de Ingresos y Gastos",
-                "Presupuestos Financieros"
-              ], "En Proceso"),
-              const SizedBox(height: 16),
-              _buildModuleButton(context, "Módulo III: Estrategias de Marketing", 2, [
-                "Segmentación de Mercado",
-                "Posicionamiento de Marca",
-                "Estrategias Digitales"
-              ], "Sin Ver"),
+              // Mostrar las lecciones
+              ...lecciones.map((leccion) {
+                return _buildModuleButton(
+                  context,
+                  leccion.nombre,
+                  leccion.FKCursos,
+                  [leccion.descripcion], // Para cada lección, mostrar la descripción
+                  "Sin Ver",
+                );
+              }).toList(),
               const SizedBox(height: 40),
 
               // Placeholder for logo

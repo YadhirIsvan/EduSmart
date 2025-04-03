@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'profile_screen.dart'; // Importa tu pantalla de perfil
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // Lista de escuelas y grupos (simulada)
+  List<String> escuelas = ['UV', 'UGMEX'];
+  List<String> gruposEstudiante = ['Grupo A', 'Grupo B'];
+  List<String> gruposProfesor = ['Grupo 1', 'Grupo 2'];
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +75,7 @@ class HomeScreen extends StatelessWidget {
             // Espacio antes de la cuadrícula de botones
             const SizedBox(height: 20),
 
-            // Cuatro botones en 2 columnas (Estudiante, Profesor, Senior, Asistente Virtual)
+            // Cuatro botones en 2 columnas (Estudiante, Profesor, Asistente Virtual)
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -83,13 +93,7 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.person_outline,
                       label: "Estudiante",
                       colorFondo: colorBoton,
-                      onTap: () {
-                        // Aquí navegamos a la pantalla de perfil
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>  ProfileScreen()),
-                        );
-                      },
+                      onTap: () => _showMenu(context, 'Estudiante'),
                     ),
                     // Botón "Profesor"
                     _menuButton(
@@ -97,19 +101,7 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.work_outline,
                       label: "Profesor",
                       colorFondo: colorBoton,
-                      onTap: () {
-                        // Acción al presionar "Profesor"
-                      },
-                    ),
-                    // Botón "Senior"
-                    _menuButton(
-                      context: context,
-                      icon: Icons.star_border,
-                      label: "Senior",
-                      colorFondo: colorBoton,
-                      onTap: () {
-                        // Acción al presionar "Senior"
-                      },
+                      onTap: () => _showMenu(context, 'Profesor'),
                     ),
                     // Botón "Asistente Virtual"
                     _menuButton(
@@ -119,6 +111,11 @@ class HomeScreen extends StatelessWidget {
                       colorFondo: colorBoton,
                       onTap: () {
                         // Acción al presionar "Asistente Virtual"
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfileScreen()), // Aquí debes poner la pantalla del asistente
+                        );
                       },
                     ),
                   ],
@@ -155,6 +152,45 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
           ],
         ),
+      ),
+    );
+  }
+
+  // Función para mostrar el menú de acuerdo con el tipo de usuario
+  void _showMenu(BuildContext context, String type) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        if (type == 'Estudiante') {
+          return _buildMenu(escuelas);
+        } else if (type == 'Profesor') {
+          return _buildMenu(gruposProfesor);
+        } else {
+          return _buildMenu(escuelas);
+        }
+      },
+    );
+  }
+
+  // Widget para mostrar el menú
+  Widget _buildMenu(List<String> items) {
+    return Container(
+      color: Colors.black,
+      height: 200,
+      child: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              items[index],
+              style: const TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              // Acción cuando se selecciona un item (puedes hacer navegación o lo que necesites)
+              Navigator.pop(context);
+            },
+          );
+        },
       ),
     );
   }
